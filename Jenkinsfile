@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('SpringBoot Integration Test') {
       steps {
-        sh "mvn '-Dtest=*/rsvrInClass/*' test"
+        sh "mvn test"
       }
     }
     stage('SpringBoot Selenium/Cucumber Test') {
