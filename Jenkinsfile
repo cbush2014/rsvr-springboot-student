@@ -6,6 +6,8 @@ pipeline {
     stage('SpringBoot Integration Test') {
       steps {
         sh "mvn test"
+        sh "pwd"
+        sh "ls"
       }
     }
     stage('SpringBoot Selenium/Cucumber Test') {
