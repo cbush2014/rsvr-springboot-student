@@ -6,6 +6,12 @@ pipeline {
         sh "mvn '-Dtest=*/rsvrInClass/*' test"
       }
     }
+    stage('CHRIS BUSH WAS HERE') {
+      steps {
+        sh "pwd"
+      }
+    }
+
     stage('Clone and run angular repo') {
       steps {
         sh "rm -rf rsvr-angular"
