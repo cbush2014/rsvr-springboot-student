@@ -6,18 +6,10 @@ pipeline {
         sh "mvn '-Dtest=*/rsvrInClass/*' test"
       }
     }
-    stage('CHRIS BUSH WAS HERE') {
-      steps {
-        sh "pwd"
-      }
-    }
-
     stage('Clone and run angular repo') {
       steps {
-        sh "rm -rf rsvr-angular"
-        sh "git clone https://github.com/cbush2014/rsvr-angular; cd rsvr-angular; npm install; ng serve &"
-        sh "pwd"
-      }
+        sh "[[ ! -d ./rsvr-angular ]] && git clone https://github.com/cbush2014/rsvr-angular; cd rsvr-angular; [[ ! -d ./node_modules ]] && npm install; ng serve &"
+       }
     }
     stage('SpringBoot Selenium/Cucumber Test') {
       steps {
@@ -25,6 +17,16 @@ pipeline {
         sleep(time:10,unit:"SECONDS")
         sh "mvn '-Dtest=*/RunCucumberTest.java' test"
       }
+    }
+    stage('Build Docker File') {
+      steps {
+        sh "./mvnw package; docker build -t rsvrspringboottest ."
+      }
+    }
+  }
+  post {
+    always {
+      sh "kill \$(lsof -t -i:4200)"
     }
   }
 }
