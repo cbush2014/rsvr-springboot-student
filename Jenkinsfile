@@ -20,7 +20,14 @@ pipeline {
     }
     stage('Build Docker File') {
       steps {
-        sh "./mvnw package; docker build -t rsvrspringboottest ."
+        sh "mvn package; docker build -t rsvrspringboottest ."
+      }
+    }
+    stage('Deploy to Heroku') {
+      steps {
+          sh "heroku git:remote -a rsvrspringboot13"
+          sh "git checkout master"
+          sh "git push heroku master"
       }
     }
   }
