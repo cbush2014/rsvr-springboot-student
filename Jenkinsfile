@@ -25,15 +25,19 @@ pipeline {
     }
     stage('Deploy to Heroku') {
       steps {
-          sh "heroku git:remote -a rsvrspringboot13"
-          sh "git checkout master"
-          sh "git push heroku master"
+         bat """
+            "heroku git:remote -a rsvrspringboot13"
+            "git checkout master"
+            "git push heroku master"
+         """
       }
     }
   }
   post {
     always {
-      sh "kill \$(lsof -t -i:4200)"
+      bat """
+        for /f "tokens=5" %%a in ('netstat -aon ^| find "4200"') do taskkill /f /pid %%a
+      """
     }
   }
 }
