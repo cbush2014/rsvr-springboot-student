@@ -4,7 +4,6 @@ pipeline {
     stage('Deploy to Heroku') {
       steps {
          bat """
-            heroku git:remote -a rsvrspringboot13
             git checkout master
             git push heroku master
          """
